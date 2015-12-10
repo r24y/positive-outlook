@@ -44,7 +44,7 @@ export function awaitEvent(emitter, event) {
 }
 
 // The main workhorse.
-export default class ExchangeClient extends EventEmitter {
+class ExchangeClient extends EventEmitter {
   constructor({
     // The path to "Exchange.asmx" for the target server.
     exchangeEndpoint = DEFAULT_EXCHANGE_ENDPOINT,
@@ -159,6 +159,9 @@ export default class ExchangeClient extends EventEmitter {
     });
   }
 }
+
+export ExchangeClient;
+export default ExchangeClient;
 
 // If we've directly called this file, fetch the user's inbox.
 // This reads the values of `EXCHANGE_ENDPT`, `OUTLOOK_USER`, `OUTLOOK_PASS`, `OUTLOOK_DOMAIN` from

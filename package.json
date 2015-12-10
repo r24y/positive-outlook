@@ -9,7 +9,7 @@
     "dev": "node -r babel-register src/index.js"
   },
   "author": "",
-  "license": "ISC",
+  "license": "GPL-3.0",
   "dependencies": {
     "@r24y/soap": "^0.11.1",
     "babel-polyfill": "^6.3.14",
