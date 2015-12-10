@@ -10,7 +10,7 @@
     "dev": "node -r babel-register src/index.js"
   },
   "author": "",
-  "license": "GPL-3.0",
+  "license": "BSD-3-Clause",
   "dependencies": {
     "@r24y/soap": "^0.11.1",
     "babel-polyfill": "^6.3.14",
