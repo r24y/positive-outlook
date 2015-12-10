@@ -2,6 +2,7 @@
   "name": "positive-outlook",
   "version": "0.0.2",
   "description": "Client for Microsoft Exchange Web Services",
+  "repository": "r24y/positive-outlook",
   "main": "dist/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
