@@ -1,6 +1,6 @@
 {
   "name": "positive-outlook",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "Client for Microsoft Exchange Web Services",
   "repository": "r24y/positive-outlook",
   "main": "dist/index.js",
@@ -12,7 +12,7 @@
   "author": "",
   "license": "BSD-3-Clause",
   "dependencies": {
-    "@r24y/soap": "^0.11.1",
+    "soap-3": "^0.11.1",
     "babel-polyfill": "^6.3.14",
     "co": "^4.6.0",
     "fs-promise": "^0.3.1",
