@@ -12,10 +12,11 @@
   "author": "",
   "license": "BSD-3-Clause",
   "dependencies": {
-    "soap-3": "^0.11.1",
     "babel-polyfill": "^6.3.14",
     "co": "^4.6.0",
     "fs-promise": "^0.3.1",
+    "httpntlm-3": "^1.5.2",
+    "soap-3": "^0.11.3",
     "soap-ntlm-3": "^0.11.0",
     "tmp": "0.0.28"
   },

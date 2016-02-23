@@ -1,5 +1,5 @@
 import 'babel-polyfill';
-import soap from '@r24y/soap';
+import soap from 'soap-3';
 import request from 'request';
 import co from 'co';
 import {EventEmitter} from 'events';
@@ -160,7 +160,6 @@ class ExchangeClient extends EventEmitter {
   }
 }
 
-export ExchangeClient;
 export default ExchangeClient;
 
 // If we've directly called this file, fetch the user's inbox.
