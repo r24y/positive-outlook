@@ -1,6 +1,6 @@
 {
   "name": "positive-outlook",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "description": "Client for Microsoft Exchange Web Services",
   "repository": "r24y/positive-outlook",
   "main": "dist/index.js",
