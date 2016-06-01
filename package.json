@@ -5,7 +5,7 @@
   "repository": "r24y/positive-outlook",
   "main": "dist/index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "node -r babel-register test/index.js",
     "compile": "mkdir -p dist && node_modules/.bin/babel -d dist/ src/",
     "prepublish": "npm run compile",
     "dev": "node -r babel-register src/index.js"
@@ -15,6 +15,7 @@
   "dependencies": {
     "babel-polyfill": "^6.3.14",
     "co": "^4.6.0",
+    "escape-html": "^1.0.3",
     "fs-promise": "^0.3.1",
     "httpntlm-3": "^1.5.2",
     "soap-3": "^0.11.3",

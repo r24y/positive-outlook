@@ -28,20 +28,20 @@ co(function *() {
 
   console.log('Creating message');
 
-/*
 
   try {
     console.log(yield ews.createMessage({
-      recipients: ['ryan.muller@novartis.com'],
-      subject: 'Hello NodeJS email!',
-      body: 'Welcome to <em>the future</em> of <strong>productivity</strong>',
+      recipients: ['me@mysite.com'],
+      subject: 'Hello styled NodeJS email!',
+      body: `
+      <style>body { font-family: 'Fira Sans', 'Helvetica', sans-serif; }</style>
+      Welcome to <em>the future</em> of <strong>productivity</strong>
+      `,
     }));
   } catch (err) {
     console.error(err);
     console.error(err.stack);
   }
-
-*/
 
   console.log('Listing inbox');
 

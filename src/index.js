@@ -5,6 +5,7 @@ import co from 'co';
 import {EventEmitter} from 'events';
 import _tmp from 'tmp';
 import fs from 'fs-promise';
+import esc from 'escape-html';
 
 import os from 'os';
 import path from 'path';
@@ -26,6 +27,11 @@ function tmpdir(opt) {
     _tmp.dir(opt, (err, res) => err ? reject(err) : resolve(res));
   });
 }
+
+const ns = {
+  m: 'http://schemas.microsoft.com/exchange/services/2006/messages',
+  t: 'http://schemas.microsoft.com/exchange/services/2006/types'
+};
 
 // Create a SOAP request as a promise
 function mkSoap(wsdlPath, soapOptions) {
@@ -155,6 +161,40 @@ class ExchangeClient extends EventEmitter {
           return reject(err2);
         }
         resolve(resp.ResponseMessages.FindItemResponseMessage.RootFolder);
+      });
+    });
+  }
+
+  createMessage({
+    recipients = [],
+    subject = 'New Message',
+    body = '',
+  } = {}) {
+    return new Promise((resolve, reject) => {
+      this.client.CreateItem({
+        attributes: { MessageDisposition: 'SendAndSaveCopy' },
+        SavedItemFolderId: { DistinguishedFolderId: { attributes: { Id: 'sentitems' } } },
+        Items: {
+          $xml: `
+          <t:Message>
+            <t:Subject>${subject}</t:Subject>
+            <t:Body BodyType="HTML">${esc(body)}</t:Body>
+            <t:ToRecipients>
+            ${
+              recipients.map(r => `<t:Mailbox><t:EmailAddress>${r}</t:EmailAddress></t:Mailbox>`)
+                .join()
+            }
+            </t:ToRecipients>
+          </t:Message>
+          `
+        }
+      }, (err, resp) => {
+        if (err) {
+          const err2 = new Error(`Network error sending message`);
+          err2.original = err;
+          return reject(err2);
+        }
+        resolve(resp);
       });
     });
   }
