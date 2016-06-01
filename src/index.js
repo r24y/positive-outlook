@@ -164,6 +164,7 @@ class ExchangeClient extends EventEmitter {
       });
     });
   }
+<<<<<<< HEAD
 
   createMessage({
     recipients = [],

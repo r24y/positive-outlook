@@ -11,7 +11,7 @@ npm i --save positive-outlook
 ## Usage
 
 ```js
-import ExchangeClient from 'positive-outlook';
+```
 const client = new ExchangeClient({
   username: 'my-email@outlook.com',
   password: 'correct horse battery staple',
