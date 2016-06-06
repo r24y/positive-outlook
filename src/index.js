@@ -43,7 +43,7 @@ function mkSoap(wsdlPath, soapOptions) {
 }
 
 // Utility function for a promise that resolves the next time `emitter` emits `event`.
-export function awaitEvent(emitter, event) {
+function awaitEvent(emitter, event) {
   return new Promise((resolve) => {
     emitter.once(event, resolve);
   });
@@ -164,7 +164,6 @@ class ExchangeClient extends EventEmitter {
       });
     });
   }
-<<<<<<< HEAD
 
   createMessage({
     recipients = [],
@@ -201,7 +200,8 @@ class ExchangeClient extends EventEmitter {
   }
 }
 
-export default ExchangeClient;
+module.exports = ExchangeClient;
+module.exports.awaitEvent = awaitEvent;
 
 // If we've directly called this file, fetch the user's inbox.
 // This reads the values of `EXCHANGE_ENDPT`, `OUTLOOK_USER`, `OUTLOOK_PASS`, `OUTLOOK_DOMAIN` from
