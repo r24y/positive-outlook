@@ -11,7 +11,6 @@ npm i --save positive-outlook
 ## Usage
 
 ```js
-```
 const client = new ExchangeClient({
   username: 'my-email@outlook.com',
   password: 'correct horse battery staple',
