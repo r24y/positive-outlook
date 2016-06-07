@@ -9,10 +9,8 @@ export default class Folder {
   static Sent() {
     return new Folder('sentitems', { type: 'distinguished' });
   }
-  constructor(name, { type } = {}) {
-    this[PRIVATE] = {};
-    this[PRIVATE].name = name;
-    this[PRIVATE].type = type;
+  constructor(name, { type, id } = {}) {
+    this[PRIVATE] = { type, id };
   }
 
   get list() {
@@ -68,12 +66,54 @@ export default class Folder {
     if (this[PRIVATE].type === 'distinguished') {
       return {
         DistinguishedFolderId: {
-          attributes: {
+          attributes: this[PRIVATE].id || {
             Id: this[PRIVATE].name,
           },
         },
       };
     }
-    throw new Error(`Unrecognized folder type ${this[PRIVATE].type}`);
+    return {
+      FolderId: {
+        attributes: this[PRIVATE].id,
+      },
+    };
+  }
+
+  static fromResponse(r) {
+    const {
+      FolderId: id,
+      DisplayName: name,
+      TotalCount: count,
+      ChildFolderCount: childFolderCount,
+      UnreadCount: unreadCount,
+    } = r;
+    const folder = new Folder(name, { id });
+    Object.assign(folder[PRIVATE], { count, childFolderCount, unreadCount });
+    return folder;
   }
 }
+
+const SPECIAL_FOLDERS = {
+  Inbox: 'inbox',
+  Sent: 'sentitems',
+  Calendar: 'calendar',
+  Outbox: 'outbox',
+  Root: 'root',
+  InstantMessageContacts: 'imcontactlist',
+  Favorites: 'favorites',
+  Junk: 'junkemail',
+  Contacts: 'contacts',
+  Drafts: 'drafts',
+  Tasks: 'tasks',
+  Trash: 'recoverableitemsroot',
+  Archive: 'archiveroot',
+  ArchiveInbox: 'archiveinbox',
+}
+
+Object.keys(SPECIAL_FOLDERS).forEach(k => {
+  const f = function () {
+    return new Folder(SPECIAL_FOLDERS[k], { type: 'distinguished' });
+  };
+  f.name = k;
+  return f;
+});
