@@ -1,5 +1,7 @@
 # positive-outlook
 
+[![Join the chat at https://gitter.im/r24y/positive-outlook](https://badges.gitter.im/r24y/positive-outlook.svg)](https://gitter.im/r24y/positive-outlook?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
 Simple EWS client.
 
 ## Installation
