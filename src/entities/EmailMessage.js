@@ -126,7 +126,7 @@ export default class EmailMessage extends Item {
       Sensitivity: sensitivity,
       Body: {
         attributes: {
-          BodyType = 'text',
+          BodyType = 'Text',
         } = {},
         $value: Body$Value,
       } = {},
