@@ -1,6 +1,7 @@
 import co from 'co';
 
 import ExchangeClient, {awaitEvent} from '../src';
+import Folder from '../src/entities/Folder';
 
 console.log('Starting up');
 
@@ -26,8 +27,8 @@ co(function *() {
   // Use our utility function to wait for the client to be ready.
   yield awaitEvent(ews, 'ready');
 
+/*
   console.log('Creating message');
-
 
   try {
     console.log(yield ews.createMessage({
@@ -42,11 +43,14 @@ co(function *() {
     console.error(err);
     console.error(err.stack);
   }
+  */
 
   console.log('Listing inbox');
 
+  const inbox = Folder.Inbox();
+
   // Perform some simple formatting and spew the top 30 messages to the console.
-  console.log((yield ews.listItems()).Items.Message.map(m => `${m.IsRead==='true' ? '          ' : ' [unread] '} ${m.Subject}`).join('\n'));
+  console.log((yield ews::inbox.list()).messages.join('\n'));
 
   //console.log(ews.soap);
 
