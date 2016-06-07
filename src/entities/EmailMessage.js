@@ -11,12 +11,28 @@ export default class EmailMessage extends Item {
     bcc = [],
     subject = '<no subject>',
     body = '',
-    format = 'text',
+    format = 'HTML',
   } = {}) {
     super();
     this[PRIVATE] = {
       to, cc, bcc, subject, body, format,
     };
+  }
+
+  get subject() {
+    return this[PRIVATE].subject;
+  }
+
+  get from() {
+    return this[PRIVATE].from;
+  }
+
+  get isRead() {
+    return this[PRIVATE].isRead;
+  }
+
+  get body() {
+    return this[PRIVATE].body;
   }
 
   get send() {
@@ -53,7 +69,7 @@ export default class EmailMessage extends Item {
         <t:Message>
           <t:Subject>${subject}</t:Subject>
           <t:Body BodyType="${format}">${esc(body)}</t:Body>
-          <t:ToRecipients>${to.map(r => r.asXml()).join()}</t:ToRecipients>
+          <t:ToRecipients>${to.map(r => r.asXml()).join('')}</t:ToRecipients>
         </t:Message>
       `,
     };

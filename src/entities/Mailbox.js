@@ -12,6 +12,14 @@ export default class Mailbox {
     this[PRIVATE] = { name, email };
   }
 
+  get name() {
+    return this[PRIVATE].name;
+  }
+
+  get email() {
+    return this[PRIVATE].email;
+  }
+
   asEws() {
     return { $xml: this.asXml() };
   }
@@ -25,7 +33,7 @@ export default class Mailbox {
 
   static fromAddress(a) {
     const addr = parseOneAddress(a);
-    return new Mailbox(a.name || a.local, { email: a.address });
+    return new Mailbox(addr.name || addr.local, { email: addr.address });
   }
 
   static fromAddresses(addrs) {

@@ -202,6 +202,9 @@ class ExchangeClient extends EventEmitter {
 
 module.exports = ExchangeClient;
 module.exports.awaitEvent = awaitEvent;
+module.exports.Message = require('./entities/EmailMessage');
+module.exports.Folder = require('./entities/Folder');
+module.exports.Mailbox = require('./entities/Mailbox');
 
 // If we've directly called this file, fetch the user's inbox.
 // This reads the values of `EXCHANGE_ENDPT`, `OUTLOOK_USER`, `OUTLOOK_PASS`, `OUTLOOK_DOMAIN` from

@@ -2,6 +2,8 @@ import co from 'co';
 
 import ExchangeClient, {awaitEvent} from '../src';
 import Folder from '../src/entities/Folder';
+import Message from '../src/entities/EmailMessage';
+import Mailbox from '../src/entities/Mailbox';
 
 console.log('Starting up');
 
@@ -27,23 +29,18 @@ co(function *() {
   // Use our utility function to wait for the client to be ready.
   yield awaitEvent(ews, 'ready');
 
-/*
-  console.log('Creating message');
+  console.log('Sending message');
 
-  try {
-    console.log(yield ews.createMessage({
-      recipients: ['me@mysite.com'],
-      subject: 'Hello styled NodeJS email!',
-      body: `
-      <style>body { font-family: 'Fira Sans', 'Helvetica', sans-serif; }</style>
-      Welcome to <em>the future</em> of <strong>productivity</strong>
-      `,
-    }));
-  } catch (err) {
-    console.error(err);
-    console.error(err.stack);
-  }
-  */
+  const message = new Message({
+    to: Mailbox.fromAddresses(['foo@example.com', '"Brian Bar" <bar@example.com>']),
+    subject: 'Hello styled NodeJS email!',
+    body: `
+    <style>body { font-family: 'Fira Sans', 'Helvetica', sans-serif; }</style>
+    Welcome to <em>the future</em> of <strong>productivity</strong>
+    `,
+  });
+
+  yield ews::message.send();
 
   console.log('Listing inbox');
 
