@@ -114,10 +114,11 @@ export default class EmailMessage extends Item {
   static fromResponse(m) {
     const message = new EmailMessage({
       subject: m.Subject,
-      to:
+      to: m.ToRecipients && (
         typeof m.ToRecipients.Mailbox.map === 'function'
           ? m.ToRecipients.Mailbox.map(Mailbox.fromResponse)
-          : Mailbox.fromResponse(m.ToRecipients.Mailbox),
+          : Mailbox.fromResponse(m.ToRecipients.Mailbox)
+        ),
     });
     const {
       ItemId: id,

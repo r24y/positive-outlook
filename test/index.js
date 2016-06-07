@@ -46,15 +46,19 @@ co(function *() {
 
   console.log('Listing inbox');
 
-  const inbox = Folder.Inbox();
+  const inbox = Folder.Calendar();
+  console.log(inbox.asEws())
 
   // List the first 30 messages
   const list = yield ews::inbox.list();
+  console.log(JSON.stringify(list.raw,null,2))
+  /*
   console.log(list.messages[0].subject, list.messages[0].from.email);
 
   // Fetch the first message
   const firstMessage = yield list.messages[0].fetch.call(ews);
   console.log(`<${firstMessage.from.email}> ${firstMessage.subject}\n=========================\n${firstMessage.body}`);
+  */
 
 
   //console.log(ews.soap);

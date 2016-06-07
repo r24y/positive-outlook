@@ -10,7 +10,7 @@ export default class Folder {
     return new Folder('sentitems', { type: 'distinguished' });
   }
   constructor(name, { type, id } = {}) {
-    this[PRIVATE] = { type, id };
+    this[PRIVATE] = { name, type, id };
   }
 
   get list() {
@@ -54,7 +54,8 @@ export default class Folder {
             Message: messages,
           } = items;
           resolve({
-            messages: messages.map(Message.fromResponse),
+            messages: (messages || []).map(Message.fromResponse),
+            raw: resp,
           });
         });
 
@@ -66,7 +67,7 @@ export default class Folder {
     if (this[PRIVATE].type === 'distinguished') {
       return {
         DistinguishedFolderId: {
-          attributes: this[PRIVATE].id || {
+          attributes: {
             Id: this[PRIVATE].name,
           },
         },
@@ -111,9 +112,7 @@ const SPECIAL_FOLDERS = {
 }
 
 Object.keys(SPECIAL_FOLDERS).forEach(k => {
-  const f = function () {
+  Folder[k] = function SpecialFolder() {
     return new Folder(SPECIAL_FOLDERS[k], { type: 'distinguished' });
   };
-  f.name = k;
-  return f;
 });
