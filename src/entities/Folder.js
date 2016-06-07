@@ -52,7 +52,6 @@ export default class Folder {
               }
             }
           } = resp;
-          console.log(Object.keys(items))
           const {
             Message: messages,
           } = items;

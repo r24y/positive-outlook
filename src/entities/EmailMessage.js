@@ -58,6 +58,42 @@ export default class EmailMessage extends Item {
     return send;
   }
 
+  get fetch() {
+    const message = this;
+    function fetch() {
+      return new Promise((resolve, reject) => {
+        this.client.GetItem({
+          ItemShape: {
+            BaseShape: 'Default',
+            IncludeMimeContent: true,
+          },
+          ItemIds: {
+            ItemId: message[PRIVATE].id,
+          }
+        }, (err, resp) => {
+          if (err) {
+            const err2 = new Error(`Network error fetching message`);
+            err2.original = err2;
+            err2.message = message;
+            return reject(err2);
+          }
+          const {
+            ResponseMessages: {
+              GetItemResponseMessage: {
+                Items: {
+                  Message: messages
+                }
+              },
+            },
+          } = resp;
+          const message = messages.length ? messages[0] : messages;
+          resolve(EmailMessage.fromResponse(message));
+        });
+      })
+    }
+    return fetch;
+  }
+
   toString() {
     return `${this[PRIVATE].isRead === false ? '[*]' : '   '} ${this[PRIVATE].subject}`;
   }
@@ -78,17 +114,37 @@ export default class EmailMessage extends Item {
   static fromResponse(m) {
     const message = new EmailMessage({
       subject: m.Subject,
+      to:
+        typeof m.ToRecipients.Mailbox.map === 'function'
+          ? m.ToRecipients.Mailbox.map(Mailbox.fromResponse)
+          : Mailbox.fromResponse(m.ToRecipients.Mailbox),
     });
+    const {
+      ItemId: id,
+      Importance: importance = 'Normal',
+      Sensitivity: sensitivity,
+      Body: {
+        attributes: {
+          BodyType = 'text',
+        } = {},
+        $value: Body$Value,
+      } = {},
+    } = m;
     Object.assign(message[PRIVATE], {
       // available in brief form
       isRead: m.IsRead === 'true',
       size: Number(m.Size),
-      sensitivity: m.Sensitivity,
+      sensitivity,
       from: Mailbox.fromResponse(m.From.Mailbox),
-      id: m.ItemId.attributes.Id,
+      id,
       tsSent: new Date(m.DateTimeSent),
       tsCreated: new Date(m.DateTimeCreated),
       hasAttachments: m.HasAttachments === 'true',
+
+      // available only if you've fetched the message
+      body: Body$Value || m.Body,
+      format: m.Body && BodyType,
+      importance: m.Importance && importance,
     });
     return message;
   }

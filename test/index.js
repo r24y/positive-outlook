@@ -29,6 +29,7 @@ co(function *() {
   // Use our utility function to wait for the client to be ready.
   yield awaitEvent(ews, 'ready');
 
+  /*
   console.log('Sending message');
 
   const message = new Message({
@@ -41,13 +42,20 @@ co(function *() {
   });
 
   yield ews::message.send();
+  */
 
   console.log('Listing inbox');
 
   const inbox = Folder.Inbox();
 
-  // Perform some simple formatting and spew the top 30 messages to the console.
-  console.log((yield ews::inbox.list()).messages.join('\n'));
+  // List the first 30 messages
+  const list = yield ews::inbox.list();
+  console.log(list.messages[0].subject, list.messages[0].from.email);
+
+  // Fetch the first message
+  const firstMessage = yield list.messages[0].fetch.call(ews);
+  console.log(`<${firstMessage.from.email}> ${firstMessage.subject}\n=========================\n${firstMessage.body}`);
+
 
   //console.log(ews.soap);
 
